@@ -2,18 +2,22 @@ def PrimeList(N):
     if N <= 2:
         return ""
     
-    is_prime = [True] * N
-    is_prime[0] = is_prime[1] = False
+    primes = []
     
-    for i in range(2, int(N ** 0.5) + 1):
-        if is_prime[i]:
-            for j in range(i * i, N, i):
-                is_prime[j] = False
+    # 处理数字2
+    if N > 2:
+        primes.append("2")
     
-    primes = [str(i) for i in range(2, N) if is_prime[i]]
+    # 从3开始检查所有奇数
+    for num in range(3, N, 2):
+        is_prime = True
+        # 检查到平方根
+        sqrt_num = int(num ** 0.5) + 1
+        for i in range(3, sqrt_num, 2):
+            if num % i == 0:
+                is_prime = False
+                break
+        if is_prime:
+            primes.append(str(num))
+    
     return ' '.join(primes)
-
-# 测试示例
-print(PrimeList(10))  # 输出：2 3 5 7
-print(PrimeList(3))   # 输出：2
-print(PrimeList(2))   # 输出：""
