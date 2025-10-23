@@ -1,20 +1,16 @@
 def PrimeList(N):
     if N <= 2:
         return ""
-    primes = []
-    # 先处理数字2（仅添加一次）
-    primes.append("2")
-    # 遍历3到N-1的所有奇数（因为偶数除了2都不是质数）
-    for num in range(3, N, 2):
-        is_prime = True
-        # 判断num是否为质数，只需要检查到其平方根
-        for i in range(3, int(num ** 0.5) + 1, 2):
-            if num % i == 0:
-                is_prime = False
-                break
-        if is_prime:
-            primes.append(str(num))
-    # 以空格分隔输出，末尾无空格
+    
+    is_prime = [True] * N
+    is_prime[0] = is_prime[1] = False
+    
+    for i in range(2, int(N ** 0.5) + 1):
+        if is_prime[i]:
+            for j in range(i * i, N, i):
+                is_prime[j] = False
+    
+    primes = [str(i) for i in range(2, N) if is_prime[i]]
     return ' '.join(primes)
 
 # 测试示例
