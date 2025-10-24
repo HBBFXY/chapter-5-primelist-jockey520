@@ -1,23 +1,45 @@
+import math
+
 def PrimeList(N):
+
     if N <= 2:
         return ""
     
-    primes = []
+    is_prime = [True] * N
+    is_prime[0] = False 
+    is_prime[1] = False 
     
-    # 处理数字2
-    if N > 2:
-        primes.append("2")
+    for i in range(2, int(math.sqrt(N)) + 1):
+        if is_prime[i]:
+            for j in range(i*i, N, i):
+                is_prime[j] = False
     
-    # 从3开始检查所有奇数
-    for num in range(3, N, 2):
-        is_prime = True
-        # 检查到平方根
-        sqrt_num = int(num ** 0.5) + 1
-        for i in range(3, sqrt_num, 2):
-            if num % i == 0:
-                is_prime = False
-                break
-        if is_prime:
-            primes.append(str(num))
+    primes = [str(num) for num in range(2, N) if is_prime[num]]
     
-    return ' '.join(primes)
+    return " ".join(primes)
+
+def main():    
+    while True:
+        user_input = input("请输入一个整数 : ").strip()
+        if not user_input.isdigit():
+            print("错误：请输入一个有效的正整数！\n")
+            continue
+        
+        N = int(user_input)
+        
+        if N <= 0:
+            print("错误：请输入一个大于0的正整数！\n")
+            continue
+        
+        result = PrimeList(N)
+        
+        if result:
+            print(f"小于 {N} 的所有质数为:")
+            print(result)
+        else:
+            print(f"小于 {N} 的质数不存在")
+        
+        print() 
+
+if __name__ == "__main__":
+    main()
